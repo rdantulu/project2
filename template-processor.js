@@ -1,13 +1,22 @@
-'use strict';
-function TemplateProcessor(templateString)
-{
-    this.templateString = templateString;
+"use strict";
+function TemplateProcessor(template){
+    this.template = template;
 }
 
 TemplateProcessor.prototype.fillIn = function (dictionary)
 {
-    return this.templateString.replace(/\{\{(\w+)\}\}/g, function (match, property)
+    var regex = /\{\{([^{}]+?)\}\}/g;
+    var finalTemplate =this.template.replace(regex,function(match,property)
     {
-        return dictionary[property] || '';
+        if(dictionary[property]!== null && typeof (dictionary[property])!== "undefined")
+        {
+            return dictionary[property];
+        }
+        else
+        {
+            return '';
+        }
     });
+
+    return finalTemplate;
 };
